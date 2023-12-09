@@ -143,6 +143,36 @@ list_node *list_insert_before (list_node **head, list_node *item, const int pos)
     return item;
 }
 
+list_node *list_remove(list_node **head, const int pos)
+{
+    const list_node* to_remove = list_get_pos(head, pos);
+
+    if(to_remove == NULL)
+        return NULL;
+
+    (*head)->count--;
+    if (to_remove->prev == NULL)
+    {
+        (*head)->next = to_remove->next;
+        (*head) = (*head)->next;
+    }
+    else
+    {
+        to_remove->prev->next = to_remove->next;
+    }
+
+    if (to_remove->next == NULL)
+    {
+        
+    }
+    else
+    {
+        to_remove->next->prev = to_remove->prev;
+    }
+
+    return to_remove;
+}
+
 void aiv_print_list(list_node* head, const char list_type)
 {
     list_node* curr_item = head;
@@ -220,6 +250,8 @@ int main(int argc, char** argv)
 
     list_insert_before(&head, &i1, 3);
     list_append_after(&head, &i2, 6);
+    aiv_print_list(head, 'i');
+    list_remove(&head, 8);
     aiv_print_list(head, 'i');
 
     aiv_shuffle_list(&head);

@@ -104,8 +104,9 @@ void aiv_print_list(list_item* head, const char list_type)
     }
     else if (list_type == 's')
     {
-        while (curr_item)
+        while (curr_item != NULL)
         {
+            printf("-");
             printf("[%s]", ((string_item*)curr_item)->value);
             curr_item = curr_item->next;
         }
@@ -237,7 +238,7 @@ list_item* aiv_get_by_string(list_item* head, char* string)
         current = current->next;
     }
     
-    printf("%s Not Founf", string);
+    printf("%s Not Founf\n", string);
     return NULL;
     
 }
