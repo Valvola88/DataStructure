@@ -3,24 +3,23 @@
 #include <stdio.h>
 #include "mycollections.h"
 
-#define START_HASHMAP_SIZE 4
-#define HASHMAP_SIZE_LIST 1
 
-typedef struct set_item set_item;
-typedef struct aiv_set aiv_set;
+
+
 
 //extern void aiv_print_list(list_item* head, const char list_type);
 
-struct set_item
-{
-    string_item item;
-};
+// struct set_item
+// {
+//     string_item item;
+// };
 
-struct aiv_set
-{
-    int dimension;
-    struct set_item* hashmap[START_HASHMAP_SIZE];
-};
+// struct aiv_set
+// {
+//     int dimension;
+//     struct set_item* hashmap[START_HASHMAP_SIZE];
+// };
+
 
 size_t djb33x_hash(const char *key, const size_t keylen)
 {
@@ -61,7 +60,7 @@ void set_init(aiv_set * set)
 }
 
 
-string_item aiv_set_insert(aiv_set *set, const char *key)
+void aiv_set_insert(aiv_set *head, set_item *value, const char *key)
 {
 
     const size_t key_len = strlen(key);
@@ -69,14 +68,15 @@ string_item aiv_set_insert(aiv_set *set, const char *key)
 
     const size_t index = hash % START_HASHMAP_SIZE;
     printf("Key %s | Index %llu\n",key,index);
-    string_item value;
-    value.value = (char*)key;
-    aiv_list_append(&(set->hashmap[index]), &value);
+    //string_item value;
+    value->item.value = (char*)key;
+    //value.value = (char*)key;
+    aiv_list_append(&(head->hashmap[index]), value);
     // printf("Idx: %llu\n", set->hashmap[0]);
     //aiv_print_list(set->hashmap[index], 's');
     // printf("Nx: %llu\n", value.list_item.next);
 
-    return value;
+    //return value;
 }
 
 void print_set(aiv_set *set)
@@ -115,47 +115,33 @@ int aiv_set_remove(aiv_set *set, const char *key)
 int main(int argc, char **argv)
 {
     aiv_set myset;
+    set_item items[32];
+
+    char* classes[] =
+    {
+        "Death Knight",
+        "Demon Hunter",
+        "Druid",
+        "Hunter",
+        "Mage",
+        "Paladin",
+        "Priest",
+        "Rogue",
+        "Shaman",
+        "Warlock",
+        "Warrior"
+    };
 
     for(int i = 0; i< 4;i++)
     {
         myset.hashmap[i] = NULL;
     }
-    //memset(items, 0, sizeof(set_item*) * 4 );
-    // print_set(&myset);
-    
-    //print_set(&myset);
-    //set_init(&myset);
-    //printf("Idx: %llu\n", myset.hashmap[0]);
-    // aiv_print_list(myset.hashmap[0], 's');
-    // aiv_set_insert(&myset, "Fortnite");
-    // print_set(&myset);
-    // aiv_set_insert(&myset, "Fortnite2");
-    // print_set(&myset);
-    //printf("Idx: %llu\n", myset.hashmap[0]);
-    //printf("Nx: %llu\n", si1.list_item.next);
-    //aiv_print_list((&myset)->hashmap[0], 's');
-    //aiv_set_insert(&myset, "Fortnite2");
-    //printf("XD");
 
-    
-    // string_item* si = &(*(myset.hashmap[0])).item;
-    // printf("List %llu\n",  (unsigned long long)si);
-    // printf("Element %s\n", si->value);
-    // si = &(*(myset.hashmap[2])).item;
-    // printf("List %llu\n",  (unsigned long long)si);
-    // printf("Element %s\n", si->value);
-    aiv_set_insert(&myset, "Death Knight");
-    aiv_set_insert(&myset, "Demon Hunter");
-    aiv_set_insert(&myset, "Druid");
-    aiv_set_insert(&myset, "Hunter");
-    aiv_set_insert(&myset, "Mage");
-    aiv_set_insert(&myset, "Shaman");
-    aiv_set_insert(&myset, "Priest");
-    aiv_set_insert(&myset, "Paladin");
-    aiv_set_insert(&myset, "Rogue");
-    aiv_set_insert(&myset, "Warlock");
-    aiv_set_insert(&myset, "Warrior");
-    aiv_set_insert(&myset, "Monk");
+    for(int i = 0; i< 11;i++)
+    {
+        aiv_set_insert(&myset, &items[i], classes[i]);
+    }
+
 
     print_set(&myset);
     aiv_set_find(&myset, "Warlock");

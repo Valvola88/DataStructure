@@ -3,6 +3,8 @@
 #include <string.h>
 #include "mycollections.h"
 
+#define 
+
 #pragma region Old_LList
 // typedef struct aiv_list_item list_item;
 // typedef struct aiv_int_item int_item;
@@ -243,7 +245,6 @@ list_item* aiv_get_by_string(list_item* head, char* string)
     
 }
 
-
 int string_main(){
     list_item* head = NULL;
     string_item si1;
@@ -307,7 +308,6 @@ int int_main(){
 
     return 0;
 }
-
 
 
 // int main(int argc, char** argv)
