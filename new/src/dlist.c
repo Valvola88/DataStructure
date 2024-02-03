@@ -3,35 +3,20 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "dlist.h"
+#include "main.h"
 
-
-typedef struct aiv_list_node list_node;
-typedef struct aiv_int_node int_node;
-
-struct aiv_list_node
-{
-    list_node *prev;
-    list_node *next;
-    int count;
-};
-
-struct aiv_int_node
-{
-    list_node node;
-    int value;
-};
-
-unsigned int list_get_len(list_node* head){
+unsigned int list_get_len(dlist_node* head){
     return head->count;
 }
 
-list_node *list_get_tail(list_node *head)
+dlist_node *list_get_tail(dlist_node *head)
 {
     if (!head)
         return NULL;
 
-    list_node* current_item = head;
-    list_node* last_item = head;
+    dlist_node* current_item = head;
+    dlist_node* last_item = head;
 
     while (current_item)
     {
@@ -43,9 +28,9 @@ list_node *list_get_tail(list_node *head)
     
 }
 
-list_node *list_append (list_node **head, list_node *item)
+dlist_node *list_append (dlist_node **head, dlist_node *item)
 {
-    list_node *tail = list_get_tail(*head);
+    dlist_node *tail = list_get_tail(*head);
     if (!tail)
     {
         *head = item;
@@ -63,13 +48,13 @@ list_node *list_append (list_node **head, list_node *item)
     return item;
 }
 
-list_node* list_get_pos(list_node** head, const  int pos)
+dlist_node* list_get_pos(dlist_node** head, const  int pos)
 {
     if (pos >= list_get_len(*head))
         return NULL;
     
     unsigned int curr_num = pos;
-    list_node* return_item = *head;
+    dlist_node* return_item = *head;
     while (curr_num > 0)
     {
         return_item = return_item->next;
@@ -79,14 +64,14 @@ list_node* list_get_pos(list_node** head, const  int pos)
     return return_item;
 }
 
-list_node *list_append_after (list_node **head, list_node *item, const int pos)
+dlist_node *list_append_after (dlist_node **head, dlist_node *item, const int pos)
 {
     if (pos < 0 || pos > list_get_len(*head) - 1)
         return NULL;
 
     if (pos == list_get_len(*head) - 1)
     {
-        list_node* prev_node = list_get_tail(*head);
+        dlist_node* prev_node = list_get_tail(*head);
 
         prev_node->next = item;
         item->prev = prev_node;
@@ -95,8 +80,8 @@ list_node *list_append_after (list_node **head, list_node *item, const int pos)
     }
     else 
     {
-        list_node* prev_node = list_get_pos(head, pos);
-        list_node* next_node = prev_node->next;
+        dlist_node* prev_node = list_get_pos(head, pos);
+        dlist_node* next_node = prev_node->next;
 
         prev_node->next = item;
         next_node->prev = item;
@@ -109,14 +94,14 @@ list_node *list_append_after (list_node **head, list_node *item, const int pos)
     return item;
 }
 
-list_node *list_insert_before (list_node **head, list_node *item, const int pos)
+dlist_node *list_insert_before (dlist_node **head, dlist_node *item, const int pos)
 {
     if (pos < 0 || pos > list_get_len(*head))
         return NULL;
 
     if (pos == 0)
     {
-        list_node* next_item = (*head);
+        dlist_node* next_item = (*head);
 
         next_item->prev = item;
         item->prev = NULL;
@@ -129,8 +114,8 @@ list_node *list_insert_before (list_node **head, list_node *item, const int pos)
     }
     else 
     {
-        list_node* next_node = list_get_pos(head, pos);
-        list_node* prev_node = next_node->prev;
+        dlist_node* next_node = list_get_pos(head, pos);
+        dlist_node* prev_node = next_node->prev;
 
         prev_node->next = item;
         next_node->prev = item;
@@ -143,9 +128,9 @@ list_node *list_insert_before (list_node **head, list_node *item, const int pos)
     return item;
 }
 
-list_node *list_remove(list_node **head, const int pos)
+dlist_node *list_remove(dlist_node **head, const int pos)
 {
-    const list_node* to_remove = list_get_pos(head, pos);
+    dlist_node* to_remove = list_get_pos(head, pos);
 
     if(to_remove == NULL)
         return NULL;
@@ -173,26 +158,27 @@ list_node *list_remove(list_node **head, const int pos)
     return to_remove;
 }
 
-void aiv_print_list(list_node* head, const char list_type)
+void aiv_print_list(dlist_node* head, const char list_type)
 {
-    list_node* curr_item = head;
+    dlist_node* curr_item = head;
     if (list_type == 'i')
     {
         while (curr_item)
         {
-            printf("[%d]", (*(int_node*)curr_item).value);
+            printf("[%d]", (*(int_dlist_node*)curr_item).value);
             curr_item = curr_item->next;
         }
     }
     printf("\n"); 
 }
 
-void aiv_shuffle_list(list_node **head)
+void aiv_shuffle_list(dlist_node **head)
 {
-    list_node *curr_node = *head;
+    dlist_node *curr_node = *head;
     const unsigned int l = list_get_len(*head);
+    (*head)->count = 0;
 
-    list_node *ord_node_list[l];
+    dlist_node *ord_node_list[l];
     int ord_list[l];
     int shf_list[l];
 
@@ -224,38 +210,36 @@ void aiv_shuffle_list(list_node **head)
         list_append(head, ord_node_list[shf_list[i]]);
     }
 
-    printf("\n");
-
 }
 
-int main(int argc, char** argv)
+void main_dlist()
 {
     srand(time(NULL));
-    list_node *head = NULL;
+    dlist_node *head = NULL;
 
-    int_node arr[8];
+    int_dlist_node arr[8];
 
     for (int i = 0 ; i < 8; i++)
     {
         arr[i].value = (i + 1) * 100;
-        list_append(&head, &arr[i]);
+        list_append(&head, (dlist_node *)&arr[i]);
     }
 
     aiv_print_list(head, 'i');
 
-    int_node i1;
+    int_dlist_node i1;
     i1.value = 150;
-    int_node i2;
+    int_dlist_node i2;
     i2.value = 250;
 
-    list_insert_before(&head, &i1, 3);
-    list_append_after(&head, &i2, 6);
+    list_insert_before(&head, (dlist_node *)&i1, 3);
+    list_append_after(&head, (dlist_node *)&i2, 6);
     aiv_print_list(head, 'i');
     list_remove(&head, 8);
     aiv_print_list(head, 'i');
 
     aiv_shuffle_list(&head);
     aiv_print_list(head, 'i');
-    printf("(%i)\n",list_get_len(head));
-    printf("{%i}",((int_node*)list_get_pos(&head, 3))->value);
+    printf("{%i}\n",((int_dlist_node*)list_get_pos(&head, 3))->value);
+    printf("l: (%i)",list_get_len(head));
 }

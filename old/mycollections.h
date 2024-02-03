@@ -1,7 +1,5 @@
 #define START_HASHMAP_SIZE 4
 #define HASHMAP_SIZE_LIST 1
-
-
 typedef struct aiv_list_item list_item;
 typedef struct aiv_int_item int_item;
 typedef struct aiv_string_item string_item;
@@ -35,7 +33,7 @@ struct set_item
 struct dictionary_item
 {
     set_item key;
-    int *value;
+    int value;
 };
 
 struct aiv_set
@@ -48,7 +46,7 @@ unsigned int aiv_list_length(list_item* head);
 void aiv_print_list(list_item* head, const char list_type);
 list_item* aiv_get_list(list_item** head, const  int num);
 list_item* aiv_list_get_tail(list_item *head);
-list_item* aiv_get_by_string(list_item* head, char* string);
+list_item* aiv_get_by_string(list_item* head,const char* string);
 list_item* aiv_remove_item_list(list_item** head, list_item* item);
 list_item* aiv_list_append(list_item** head, list_item* item);
 list_item* aiv_remove_list_number(list_item** head, const unsigned int array_num);

@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include "mycollections.h"
 
-#define START_HASHMAP_SIZE 64
-#define HASHMAP_SIZE_LIST 1
+// #define START_HASHMAP_SIZE 64
+// #define HASHMAP_SIZE_LIST 1
 
 typedef struct set_item set_item;
 typedef struct aiv_set aiv_set;
@@ -56,7 +56,7 @@ int aiv_set_find(aiv_set *set, const char *key)
         }
     }
 
-    printf("%s NOT FOUND\n", key);
+    //printf("%s NOT FOUND\n", key);
     return -1;
 }
 

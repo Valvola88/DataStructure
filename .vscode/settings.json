@@ -2,6 +2,7 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "*.py": "python",
-        "mycollections.h": "c"
+        "mycollections.h": "c",
+        "llist.h": "c"
     }
 }
