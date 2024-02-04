@@ -189,7 +189,7 @@ list_item* aiv_remove_item_list(list_item** head, list_item* item)
 
     if (*head == item)
     {
-        printf("Pop\t");
+        //printf("Pop\t");
         return aiv_list_pop(head);
     }
 
@@ -267,6 +267,23 @@ list_item* aiv_get_by_string(list_item* head,const char* string)
     
 }
 
+void aiv_free_llist(list_item* head)
+{
+    list_item* current = head;
+    if (head == NULL)
+        return;
+    list_item* next = current->next;
+
+    while(next)
+    {
+        free(current);
+        current = next;
+        next = current->next;
+    }
+    
+    free(current);
+}
+
 void main_string_llist(){
     list_item* head = NULL;
     string_item* si1 = aiv_make_item_string("Test1");
@@ -293,6 +310,8 @@ void main_string_llist(){
     {
         printf("%s not found", search);
     }
+
+    aiv_free_llist(head);
 }
 
 void main_int_llist(){

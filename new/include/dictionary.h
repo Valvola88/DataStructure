@@ -10,4 +10,9 @@ struct dictionary_item
     int value;
 };
 
+dictionary_item* dictionary_make_item(const char* key, const int value);
+dictionary_item* aiv_dictionary_insert(aiv_set *head, const char *key, int val);
+int aiv_print_dictionary(aiv_set *head);
+dictionary_item* aiv_dictionary_get_item_key(aiv_set* head,const char* key);
+
 #endif

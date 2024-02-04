@@ -37,6 +37,8 @@ list_item* aiv_get_by_string(list_item* head,const char* string);
 //REMOVE
 list_item* aiv_remove_item_list(list_item** head, list_item* item);
 list_item* aiv_remove_list_number(list_item** head, const unsigned int array_num);
+list_item* aiv_list_pop(list_item** head);
+void aiv_free_llist(list_item* head);
 
 //UTILS
 void aiv_print_list(list_item* head, const char list_type);
